@@ -20,16 +20,6 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role getRole(String userRole) {
-        return roleRepository.findByName(userRole).orElse(null);
-    }
-
-    @Override
-    public Role getRoleById(Long id) {
-        return roleRepository.findById(id).orElse(null);
-    }
-
-    @Override
     public void addRole(Role role) {
         roleRepository.save(role);
     }
