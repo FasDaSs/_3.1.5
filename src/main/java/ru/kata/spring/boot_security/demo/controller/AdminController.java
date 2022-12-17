@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -19,29 +20,25 @@ public class AdminController {
     }
 
     @GetMapping
-    public String showAllUsers(ModelMap model) {
+    public String showAllUsers(@AuthenticationPrincipal User user, ModelMap model) {
         model.addAttribute("users", userService.listUsers());
-        return "admin";
+        model.addAttribute("principial", user);
+        model.addAttribute("roles", roleService.getAllRoles());
+        return "admin/admin";
     }
 
     @GetMapping("/user/new")
-    public String newUserPage(ModelMap model) {
+    public String newUserPage(@AuthenticationPrincipal User user, ModelMap model) {
         model.addAttribute("user", new User());
+        model.addAttribute("principial", user);
         model.addAttribute("roles", roleService.getAllRoles());
-        return "newUser";
+        return "admin/newUser";
     }
 
     @PostMapping("/user")
     public String addUser(@ModelAttribute("user") User user) {
         userService.add(user);
         return "redirect:/admin";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String editPage(ModelMap model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userService.getById(id));
-        model.addAttribute("roles", roleService.getAllRoles());
-        return "editUser";
     }
 
     @PatchMapping("/{id}")

@@ -26,16 +26,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN", "USER" )
-                .antMatchers("/", "/login").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/admin**").hasRole("ADMIN")
+                .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()
+                .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and()
-                .formLogin().successHandler(successUserHandler)
-                .permitAll()
-                .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
-                .permitAll();
+                .formLogin().loginPage("/auth/login")
+                .loginProcessingUrl("/process_login").successHandler(successUserHandler)
+                .failureUrl("/auth/login?error")
+                .and().logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/auth/login");
     }
 
     @Override

@@ -1,7 +1,5 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,8 +16,14 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "age")
     private byte age;
@@ -35,15 +39,24 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String password, byte age, Set<Role> roles) {
-        this.name = name;
+    public User(String firstName, String lastName, String email, byte age, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
         this.age = age;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(String name) {
-        this.name = name;
+    public User(String firstName, String password, byte age, Set<Role> roles) {
+        this.firstName = firstName;
+        this.age = age;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(String firstName) {
+        this.firstName = firstName;
     }
 
     public Long getId() {
@@ -54,12 +67,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
     public byte getAge() {
@@ -82,12 +95,32 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", age=" + age +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 
@@ -103,7 +136,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return firstName;
     }
 
     @Override
@@ -131,11 +164,11 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return age == user.age && Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return age == user.age && Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, password, roles);
+        return Objects.hash(id, firstName, age, password, roles);
     }
 }

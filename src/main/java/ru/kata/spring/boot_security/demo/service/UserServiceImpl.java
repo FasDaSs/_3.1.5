@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByName(username)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
@@ -42,6 +42,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
+        user.setPassword(user.getPassword() == null
+                ? userRepository.findById(user.getId()).get().getPassword()
+                : passwordEncoder.encode(user.getPassword()));
+        System.out.println(user);
         userRepository.save(user);
     }
 

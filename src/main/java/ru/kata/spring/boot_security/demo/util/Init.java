@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.util;
 
+import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -33,9 +34,9 @@ public class Init {
         adminSet.add(roleUser);
         userSet.add(roleUser);
 
-        User admin = new User("Admin", "strongpass", (byte)20, adminSet);
-        User user = new User("SampleUser", "password", (byte)18, userSet);
-        User user2 = new User("AnotherUser", "pass", (byte)67, userSet);
+        User admin = new User("Admin", "Admin", "email@test.com", (byte)20, "strongpass", adminSet);
+        User user = new User("SampleUser", "SampleUser", "email2@test.com", (byte)18, "password", userSet);
+        User user2 = new User("AnotherUser", "AnotherUser", "email3@test.com", (byte)67, "pass", userSet);
 
         userService.add(admin);
         userService.add(user);
