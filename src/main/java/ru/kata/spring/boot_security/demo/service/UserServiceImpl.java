@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        user.setPassword(user.getPassword() == null
+        user.setPassword(user.getPassword() == null || user.getPassword() == ""
                 ? userRepository.findById(user.getId()).get().getPassword()
                 : passwordEncoder.encode(user.getPassword()));
         System.out.println(user);
