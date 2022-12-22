@@ -38,7 +38,7 @@ public class RestApiController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/users/principal")
+    @GetMapping("/principal")
     public ResponseEntity <User> getPrincipal(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
